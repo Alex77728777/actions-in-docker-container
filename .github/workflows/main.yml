@@ -29,10 +29,9 @@ jobs:
     - name: Check Ubuntu image
       run: ls /
     - name: Install psql client
-        run: apt-get update && apt-get install -y postgresql-client
-
-      - name: Connect to DB
-        env:
-          PGPASSWORD: postgres
-        run: |
-          psql -h postgres -U postgres -d testdb -c "\dt"
+      run: apt-get update && apt-get install -y postgresql-client
+    - name: Connect to DB
+      env:
+        PGPASSWORD: postgres
+      run: |
+        psql -h postgres -U postgres -d testdb -c "\dt"
