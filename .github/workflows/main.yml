@@ -1,0 +1,16 @@
+name: Test Workflow In Docker Container
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  test-job:
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ secrets.DOCKERHUB_USER }}/ubuntu_net:latest
+      credentials:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    steps:
+    - name: Check image
+      run: ls /
