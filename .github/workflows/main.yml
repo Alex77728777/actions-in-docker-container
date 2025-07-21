@@ -3,11 +3,15 @@ on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
+
+vars:
+  DOCKERHUB_IMAGE: ${{ secrets.DOCKERHUB_USER }}/ubuntu_net:latest
+
 jobs:
   test-job:
     runs-on: ubuntu-latest
     container:
-      image: ${{ secrets.DOCKERHUB_USER }}/ubuntu_net:latest
+      image: ${{ vars.DOCKERHUB_IMAGE }}
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
