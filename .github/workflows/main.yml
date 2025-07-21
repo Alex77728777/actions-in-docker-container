@@ -7,10 +7,32 @@ jobs:
   test-job:
     runs-on: ubuntu-latest
     container:
-      image: championsleague12/ubuntu_net:latest
+      image: championsleague12/ubuntu_net:latest ### Run on Docker Image inside ubuntu-latest
       credentials:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    services:
+      postgres:
+        image: postgres:15   ### Temporary DB for testing, accessible from container: via hostname
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: testdb
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
     steps:
-    - name: Check image
+    - name: Check Ubuntu image
       run: ls /
+    - name: Install psql client
+        run: apt-get update && apt-get install -y postgresql-client
+
+      - name: Connect to DB
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h postgres -U postgres -d testdb -c "\dt"
