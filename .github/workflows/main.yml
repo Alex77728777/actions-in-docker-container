@@ -34,4 +34,4 @@ jobs:
       env:
         PGPASSWORD: postgres
       run: |
-        psql -h postgres -U postgres -d testdb -c "\dt"
+        psql -h postgres -U postgres -d testdb -c "\l"
